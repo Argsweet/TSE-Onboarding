@@ -84,16 +84,14 @@ export const removeTask: RequestHandler = async (req, res, next) => {
 };
 
 export const updateTask: RequestHandler = async (req, res, next) => {
-  // your code here
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return validationErrorParser(errors);
     }
-    const { id } = req.params; // extract the ID from params and the request body
+    const { id } = req.params;
     const { _id, title, description, isChecked, dateCreated } = req.body;
     if (id !== _id) {
-      // check if the ID in the URL matches the ID in the body
       return res.status(400).json({ error: "ID in URL does not match ID in body" });
     }
     const updatedTask = await Task.findByIdAndUpdate(

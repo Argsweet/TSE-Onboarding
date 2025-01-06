@@ -17,7 +17,6 @@ export function TaskItem({ task: initialTask }: TaskItemProps) {
     setLoading(true);
     try {
       const updatedTask = await updateTask({
-        // marked
         ...task,
         isChecked: !task.isChecked,
       });
@@ -50,7 +49,3 @@ export function TaskItem({ task: initialTask }: TaskItemProps) {
     </div>
   );
 }
-
-// update the previous line and add the following
-
-// ...
