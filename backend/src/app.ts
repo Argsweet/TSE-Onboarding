@@ -56,5 +56,6 @@ app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
 
   res.status(statusCode).json({ error: errorMessage });
 });
+app.use("/api/task", taskRoutes);
 
 export default app;
