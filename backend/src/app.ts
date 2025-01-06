@@ -7,7 +7,8 @@ import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import { isHttpError } from "http-errors";
 import taskRoutes from "src/routes/task";
-import tasksRoutes from "src/routes/tasks"; // add this line
+import tasksRoutes from "src/routes/tasks";
+import userRoutes from "src/routes/user";
 
 const app = express();
 
@@ -26,7 +27,8 @@ app.use(
 );
 
 app.use("/api/task", taskRoutes);
-app.use("/api/tasks", tasksRoutes); // add this line
+app.use("/api/tasks", tasksRoutes);
+app.use("/api/user", userRoutes);
 
 /**
  * Error handler; all errors thrown by server are handled here.

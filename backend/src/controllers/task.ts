@@ -7,7 +7,7 @@ import createHttpError from "http-errors";
 import { validationResult } from "express-validator";
 import TaskModel from "src/models/task";
 import validationErrorParser from "src/util/validationErrorParser";
-import Task from "src/models/task";
+//import Task from "src/models/task";
 
 /**
  * This is an example of an Express API request handler. We'll tell Express to
@@ -31,7 +31,7 @@ export const getTask: RequestHandler = async (req, res, next) => {
 
   try {
     // if the ID doesn't exist, then findById returns null
-    const task = await TaskModel.findById(id);
+    const task = await TaskModel.findById(id).populate("assignee");
 
     if (task === null) {
       throw createHttpError(404, "Task not found.");
@@ -50,7 +50,7 @@ export const getTask: RequestHandler = async (req, res, next) => {
 export const createTask: RequestHandler = async (req, res, next) => {
   // extract any errors that were found by the validator
   const errors = validationResult(req);
-  const { title, description, isChecked } = req.body;
+  const { title, description, isChecked, assignee } = req.body;
 
   try {
     // if there are errors, then this function throws an exception
@@ -61,11 +61,12 @@ export const createTask: RequestHandler = async (req, res, next) => {
       description: description,
       isChecked: isChecked,
       dateCreated: Date.now(),
+      assignee,
     });
-
+    const populatedTask = await task.populate("assignee");
     // 201 means a new resource has been created successfully
     // the newly created task is sent back to the user
-    res.status(201).json(task);
+    res.status(201).json(populatedTask);
   } catch (error) {
     next(error);
   }
@@ -90,15 +91,17 @@ export const updateTask: RequestHandler = async (req, res, next) => {
       return validationErrorParser(errors);
     }
     const { id } = req.params;
-    const { _id, title, description, isChecked, dateCreated } = req.body;
+    const { _id, title, description, isChecked, dateCreated, assignee } = req.body;
+
     if (id !== _id) {
       return res.status(400).json({ error: "ID in URL does not match ID in body" });
     }
-    const updatedTask = await Task.findByIdAndUpdate(
+
+    const updatedTask = await TaskModel.findByIdAndUpdate(
       id,
-      { title, description, isChecked, dateCreated },
+      { title, description, isChecked, dateCreated, assignee },
       { new: true, runValidators: true },
-    );
+    ).populate("assignee"); // Populate assignee field
 
     if (!updatedTask) {
       return res.status(404).json({ error: "Task not found" });
