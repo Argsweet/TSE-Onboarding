@@ -1,4 +1,5 @@
 import { get, handleAPIError, post, put } from "src/api/requests";
+
 import type { APIResult } from "src/api/requests";
 
 /**
@@ -96,12 +97,9 @@ export async function getTask(id: string): Promise<APIResult<Task>> {
 
 export async function getAllTasks(): Promise<APIResult<Task[]>> {
   try {
-    // your code here
     const response = await get("/api/tasks");
     const json = await response.json();
     const tasks: Task[] = [];
-
-    // Loop through each task in the JSON response and parse it
     for (const task of json) {
       tasks.push(parseTask(task));
     }
