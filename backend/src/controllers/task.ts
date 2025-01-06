@@ -7,6 +7,7 @@ import createHttpError from "http-errors";
 import { validationResult } from "express-validator";
 import TaskModel from "src/models/task";
 import validationErrorParser from "src/util/validationErrorParser";
+import Task from "src/models/task";
 
 /**
  * This is an example of an Express API request handler. We'll tell Express to
@@ -77,6 +78,35 @@ export const removeTask: RequestHandler = async (req, res, next) => {
     const result = await TaskModel.deleteOne({ _id: id });
 
     res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateTask: RequestHandler = async (req, res, next) => {
+  // your code here
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return validationErrorParser(errors);
+    }
+    const { id } = req.params; // extract the ID from params and the request body
+    const { _id, title, description, isChecked, dateCreated } = req.body;
+    if (id !== _id) {
+      // check if the ID in the URL matches the ID in the body
+      return res.status(400).json({ error: "ID in URL does not match ID in body" });
+    }
+    const updatedTask = await Task.findByIdAndUpdate(
+      id,
+      { title, description, isChecked, dateCreated },
+      { new: true, runValidators: true },
+    );
+
+    if (!updatedTask) {
+      return res.status(404).json({ error: "Task not found" });
+    }
+
+    res.status(200).json(updatedTask);
   } catch (error) {
     next(error);
   }
