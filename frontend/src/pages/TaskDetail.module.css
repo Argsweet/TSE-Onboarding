@@ -1,0 +1,111 @@
+/* Page Content */
+.taskDetail {
+  width: 900px;
+  padding: 48px 0;
+  gap: 24px;
+}
+
+.backLink {
+  font-family: Rubik;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18.96px;
+  text-align: left;
+  text-decoration: underline;
+  color: #000;
+}
+
+.taskRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.taskTitle {
+  width: 789px;
+  height: 28px;
+  gap: 0px;
+  opacity: 1;
+  font-family: Rubik;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 28.44px;
+  text-align: left;
+  margin-bottom: 12px;
+  margin-top: 24px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.editButton {
+  width: 104px;
+  height: 35px;
+  padding: 8px 12px;
+  background-color: #debb01;
+  border-radius: 8px;
+  border: none;
+  font-family: Rubik;
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+  cursor: pointer;
+}
+
+.taskDescription {
+  font-family: Rubik;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18.96px;
+  margin-bottom: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taskInfoRow {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.infoLabel {
+  font-family: Rubik;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 18.96px;
+  margin-right: 8px;
+}
+
+.infoValue {
+  font-family: Rubik;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18.96px;
+  margin-left: 8px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.assigneeContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.assigneePfp {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  gap: 0px;
+  opacity: 1;
+  margin-left: 8px;
+  margin-top: 8px;
+}

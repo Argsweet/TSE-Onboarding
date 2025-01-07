@@ -42,18 +42,15 @@ export const getTask: RequestHandler = async (req, res, next) => {
     // statement to exit the function early.
     res.status(200).json(task);
   } catch (error) {
-    // pass errors to the error handler
     next(error);
   }
 };
 
 export const createTask: RequestHandler = async (req, res, next) => {
-  // extract any errors that were found by the validator
   const errors = validationResult(req);
   const { title, description, isChecked, assignee } = req.body;
 
   try {
-    // if there are errors, then this function throws an exception
     validationErrorParser(errors);
 
     const task = await TaskModel.create({
@@ -64,8 +61,7 @@ export const createTask: RequestHandler = async (req, res, next) => {
       assignee,
     });
     const populatedTask = await task.populate("assignee");
-    // 201 means a new resource has been created successfully
-    // the newly created task is sent back to the user
+
     res.status(201).json(populatedTask);
   } catch (error) {
     next(error);
@@ -101,7 +97,7 @@ export const updateTask: RequestHandler = async (req, res, next) => {
       id,
       { title, description, isChecked, dateCreated, assignee },
       { new: true, runValidators: true },
-    ).populate("assignee"); // Populate assignee field
+    ).populate("assignee");
 
     if (!updatedTask) {
       return res.status(404).json({ error: "Task not found" });

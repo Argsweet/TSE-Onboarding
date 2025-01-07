@@ -1,4 +1,5 @@
-import React, { useState } from "react"; // update this line
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { updateTask } from "src/api/tasks";
 import { CheckButton } from "src/components";
 import styles from "src/components/TaskItem.module.css";
@@ -19,6 +20,7 @@ export function TaskItem({ task: initialTask }: TaskItemProps) {
       const updatedTask = await updateTask({
         ...task,
         isChecked: !task.isChecked,
+        assignee: task.assignee?._id,
       });
 
       if (updatedTask.success) {
@@ -34,16 +36,15 @@ export function TaskItem({ task: initialTask }: TaskItemProps) {
   };
 
   return (
-    <div className={styles.item}>
+    <div className={`${styles.item} ${task.isChecked ? styles.checked : ""}`}>
       <CheckButton checked={task.isChecked} onPress={handleToggleCheck} disabled={isLoading} />
-
-      <div
-        className={
-          task.isChecked ? `${styles.textContainer} ${styles.checked}` : styles.textContainer
-        }
-      >
-        <span className={styles.title}>{task.title}</span>
-
+      <div className={styles.textContainer}>
+        <Link
+          to={`/task/${task._id}`} // Use task ID to link to TaskDetail
+          className={styles.link}
+        >
+          <span className={styles.title}>{task.title}</span>
+        </Link>
         {task.description && <span className={styles.description}>{task.description}</span>}
       </div>
     </div>
